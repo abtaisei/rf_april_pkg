@@ -1,0 +1,41 @@
+launch:
+- arg:
+    name: device
+    default: "0"
+
+- node_container:
+    pkg: rclcpp_components
+    exec: component_container
+    name: apriltag_container
+    namespace: ""
+    composable_node:
+    - pkg: image_proc
+      plugin: image_proc::RectifyNode
+      name: rectify
+      namespace: camera
+      remap:
+      - from: image
+        to: /image_topic            # ← THETAの画像トピックに合わせた
+      - from: camera_info
+        to: /dummy_camera_info      # ← camera_info をダミーに変更（出してるならその名前）
+
+      extra_arg:
+      - name: use_intra_process_comms
+        value: "True"
+
+    - pkg: apriltag_ros
+      plugin: AprilTagNode
+      name: apriltag
+      namespace: apriltag
+      remap:
+      - from: /apriltag/image_rect
+        to: /camera/image_rect      # ← rectify出力
+      - from: /camera/camera_info
+        to: /dummy_camera_info      # ← 上と同じくcamera_info
+
+      param:
+      - from: $(find-pkg-share apriltag_ros)/cfg/tags_36h11.yaml
+      extra_arg:
+      - name: use_intra_process_comms
+        value: "True"
+
