@@ -50,8 +50,8 @@ def generate_launch_description():
             output='screen',
             parameters=[apriltag_param_path],
             remappings=[
-                ('image_rect', '/image_topic'),
-                ('camera_info', '/dammy_camera_info'),
+                ('image_rect', '/camera/color/image_raw'),
+                ('camera_info', '/camera/color/camera_info'),
             ]
         )
     ] + static_tf_nodes)
