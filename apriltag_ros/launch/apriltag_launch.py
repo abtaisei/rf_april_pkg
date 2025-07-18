@@ -1,18 +1,27 @@
+import os
 import json
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
+    # AprilTagパラメータのYAMLファイル
     apriltag_param_path = PathJoinSubstitution([
         FindPackageShare('apriltag_ros'),
         'cfg',
         'tags_36h11.yaml'
     ])
 
-    # tag_map.jsonの読み込み
-    tag_map_path = '/home/student/ros2_ws/src/apriltag_ros/cfg/tag_map.json'  # ここは実パス
+    # tag_map.json のパスをROSパッケージ相対に変更
+    tag_map_path = os.path.join(
+        get_package_share_directory('apriltag_ros'),
+        'cfg',
+        'tag_map.json'
+    )
+
+    # JSONファイルを読み込む
     with open(tag_map_path, 'r') as f:
         tag_data = json.load(f)
 
@@ -46,4 +55,3 @@ def generate_launch_description():
             ]
         )
     ] + static_tf_nodes)
-
