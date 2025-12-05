@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>tag_bridge_pkg</name>
+  <version>0.0.1</version>
+  <description>Bridge AprilTagDetectionArray to Int32 tag ID</description>
+
+  <maintainer email="g2212005.tcu.ac.jp">user</abtaisei>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>apriltag_msgs</exec_depend>
+</package>
